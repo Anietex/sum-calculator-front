@@ -7,7 +7,7 @@
     </header>
     <div class="inputs-wrapper">
       <div class="row">
-        <div class="col-md-4 col-12 mx-auto px-5">
+        <div class="col-md-6 col-12 mx-auto px-5">
           <div class="calculator-card card">
             <div class="card-body">
               <div class="form-wrapper text-center col-md-6 mx-auto">
