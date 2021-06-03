@@ -1,0 +1,10 @@
+body,html{
+  font-family: 'Varela Round', sans-serif !important;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+:root{
+  --primary-color:  #C10708;
+}
