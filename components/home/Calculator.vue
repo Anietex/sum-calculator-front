@@ -47,7 +47,7 @@
 
               <div class="col-md-6 text-center mx-auto">
                 <p>Results</p>
-                <input type="text" disabled class="form-control result-value">
+                <input v-model="answer" type="text" disabled class="form-control result-value">
               </div>
             </div>
           </div>
@@ -66,6 +66,7 @@ export default {
       number2: ''
     },
     loading: false,
+    answer: '',
 
     errors: {
       number1: {
@@ -78,6 +79,14 @@ export default {
       }
     }
   }),
+  watch: {
+    inputs: {
+      deep: true,
+      handler () {
+        this.answer = ''
+      }
+    }
+  },
 
   methods: {
     inputAreValid () {
@@ -90,10 +99,19 @@ export default {
       })
       return isValid
     },
-    calculate () {
+    async calculate () {
       if (this.inputAreValid()) {
         this.loading = true
-        console.log({ inputs: this.inputs })
+        try {
+          const { data: { data } } = await this.$axios.get('/calculator/add', {
+            params: this.inputs
+          })
+          this.answer = data.sum
+        } catch (e) {
+          console.error(e)
+        } finally {
+          this.loading = false
+        }
       }
     }
   }
