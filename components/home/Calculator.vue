@@ -11,21 +11,39 @@
           <div class="calculator-card card">
             <div class="card-body">
               <div class="form-wrapper text-center col-md-6 mx-auto">
-                <form>
+                <form @submit.prevent="calculate">
                   <p>Enter the numbers</p>
                   <div class="form-group">
-                    <input type="number" class="form-control" placeholder="Number 1">
+                    <input
+                      v-model="inputs.number1"
+                      type="number"
+                      class="form-control"
+                      :class="{ 'is-invalid':errors.number1.show}"
+                      placeholder="Number 1"
+                    >
+                    <div class="invalid-feedback">
+                      {{ errors.number1.message }}
+                    </div>
                   </div>
 
                   <div class="form-group">
-                    <input type="number" class="form-control" placeholder="Number 2">
+                    <input
+                      v-model="inputs.number2"
+                      type="number"
+                      class="form-control"
+                      :class="{ 'is-invalid':errors.number2.show}"
+                      placeholder="Number 2"
+                    >
+                    <div class="invalid-feedback">
+                      {{ errors.number2.message }}
+                    </div>
                   </div>
-                  <button type="button" class="btn btn-block calculate-btn">
+                  <button :disabled="loading" type="submit" class="btn btn-block calculate-btn">
                     Calculate
                   </button>
                 </form>
               </div>
-              <hr class="divider">
+              <hr class="divider" :class="{ 'animate-divider': loading}">
 
               <div class="col-md-6 text-center mx-auto">
                 <p>Results</p>
@@ -41,7 +59,44 @@
 
 <script>
 export default {
-  name: 'Calculator'
+  name: 'Calculator',
+  data: () => ({
+    inputs: {
+      number1: '',
+      number2: ''
+    },
+    loading: false,
+
+    errors: {
+      number1: {
+        message: 'Number 1 is requires a number',
+        show: false
+      },
+      number2: {
+        message: 'Number 2 is requires a number',
+        show: false
+      }
+    }
+  }),
+
+  methods: {
+    inputAreValid () {
+      let isValid = true
+      Object.keys(this.inputs).forEach((key) => {
+        this.errors[key].show = !(this.inputs[key] && !isNaN(this.inputs[key]))
+        if (this.errors[key].show) {
+          isValid = false
+        }
+      })
+      return isValid
+    },
+    calculate () {
+      if (this.inputAreValid()) {
+        this.loading = true
+        console.log({ inputs: this.inputs })
+      }
+    }
+  }
 }
 </script>
 
@@ -71,11 +126,26 @@ p{
 
 .divider{
   background-color: var(--primary-color) ;
-  margin: 50px 10px;
+  margin: 50px auto;
+}
+
+.animate-divider{
+  animation: breath .5s infinite;
 }
 
 .result-value{
   background-color: #ffffff;
   border-color: var(--primary-color);
 }
+
+@keyframes breath {
+  from {
+    width: 5%;
+  }
+
+  to{
+    width: 100%;
+  }
+}
+
 </style>
