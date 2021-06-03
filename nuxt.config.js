@@ -43,7 +43,7 @@ export default {
     '@nuxtjs/axios'
   ],
   axios: {
-    baseURL: 'http://uw-sum-api.herokuapp.com/api'
+    baseURL: 'https://uw-sum-api.herokuapp.com/api'
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
